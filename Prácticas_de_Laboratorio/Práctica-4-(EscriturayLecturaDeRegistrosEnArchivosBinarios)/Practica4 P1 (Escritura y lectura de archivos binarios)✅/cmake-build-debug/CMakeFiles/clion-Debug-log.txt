@@ -1,0 +1,1 @@
+CMakeLists.txt not found in /Users/beza/Desktop/Práctica 4 (Escritura y lectura de Registros en Archivosw Binarios) Select CMakeLists.txt

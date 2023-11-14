@@ -1,0 +1,9 @@
+EJECUTAR EN EL SIGUIENTE ORDEN: 
+
+1. ARCHIVOS_1wb.c
+2. ARCHIVOS_2rb.c
+3. ARCHIVO_3rb.c
+4. ARCHIVO_4rb.c
+5. ARCHIVO_5rb.c
+6. ARCHIVO_6rb.c
+7. Archivos_ej_7.c

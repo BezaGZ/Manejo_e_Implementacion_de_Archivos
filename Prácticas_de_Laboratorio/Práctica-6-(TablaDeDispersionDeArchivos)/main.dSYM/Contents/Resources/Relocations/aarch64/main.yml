@@ -1,0 +1,12 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     main
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _hashCode, symObjAddr: 0x0, symBinAddr: 0x100003524, symSize: 0x90 }
+  - { offsetInCU: 0x41, offset: 0x41, size: 0x8, addend: 0x0, symName: _hashCode, symObjAddr: 0x0, symBinAddr: 0x100003524, symSize: 0x90 }
+  - { offsetInCU: 0xA1, offset: 0xA1, size: 0x8, addend: 0x0, symName: _esCodigoValido, symObjAddr: 0x90, symBinAddr: 0x1000035B4, symSize: 0x11C }
+  - { offsetInCU: 0x101, offset: 0x101, size: 0x8, addend: 0x0, symName: _insertarRegistro, symObjAddr: 0x1AC, symBinAddr: 0x1000036D0, symSize: 0x138 }
+  - { offsetInCU: 0x15D, offset: 0x15D, size: 0x8, addend: 0x0, symName: _buscarRegistro, symObjAddr: 0x2E4, symBinAddr: 0x100003808, symSize: 0x168 }
+  - { offsetInCU: 0x1AB, offset: 0x1AB, size: 0x8, addend: 0x0, symName: _mostrarRegistros, symObjAddr: 0x44C, symBinAddr: 0x100003970, symSize: 0xE4 }
+  - { offsetInCU: 0x1EB, offset: 0x1EB, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x530, symBinAddr: 0x100003A54, symSize: 0x250 }
+...
