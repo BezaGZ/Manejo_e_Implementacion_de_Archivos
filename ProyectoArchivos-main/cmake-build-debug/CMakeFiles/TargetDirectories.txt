@@ -1,0 +1,3 @@
+/Users/beza/Desktop/ProyectoArchivos/cmake-build-debug/CMakeFiles/ProyectoArchivos.dir
+/Users/beza/Desktop/ProyectoArchivos/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/beza/Desktop/ProyectoArchivos/cmake-build-debug/CMakeFiles/rebuild_cache.dir

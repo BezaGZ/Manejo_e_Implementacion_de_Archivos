@@ -1,0 +1,11 @@
+1. Cual es la situación en la que se puede usar un PMODE igual a 0644 ? Suponga un sistema operativo UNIX. Describa
+	
+	El PMODE de 0644 se utiliza en escenarios donde se requiere que el propietario tenga el control total
+	con permisos de lectura y escritura, mientras que otros usuarios y grupos solo tienen permisos de lectura.	Solo funciona en situaciones donde se busca compartir información sin permitir modificaciones accidentales o no autorizadas.
+	
+
+2. Cual es la diferencia entre PMODE y MODO?
+
+	PMODE: Se refiere a los permiso de acceso a un archivo (leer, escribir, ejecutar).
+	MODE: Se refiere a la acción especifica que llevara a cabo en el archivo (lectura, escritura) según los permiso establecidos en PMODE.
+	
