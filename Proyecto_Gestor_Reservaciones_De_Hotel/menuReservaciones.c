@@ -20,7 +20,6 @@ void imprimirResultado(MYSQL_RES *result) {
 
     printf("\n*******************************************************\n");
 }
-
 void verReservacionesFechaEspecifica(MYSQL *con) {
     char fecha[20];
     struct tm tm_fecha;
@@ -148,13 +147,29 @@ void verReservasConfirmadasFecha(MYSQL *con) {
     mysql_free_result(result);
 }
 void reservacionesClientePorId(MYSQL *con) {
-    int idCliente;
+    char idCliente[20];
     printf("\n*************** Reservaciones de Cliente *************\n");
-    printf("Ingrese el DPI del cliente: ");
-    scanf("%d", &idCliente);
 
+    int validoVerificar = 1;
+    do {
+        printf("Ingrese el DPI del cliente: ");
+        scanf("%s", idCliente);
+
+        validoVerificar = 1;
+        for (int i = 0; i < strlen(idCliente); i++) {
+            if (!isdigit(idCliente[i])) {
+                validoVerificar = 0;
+                break;
+            }
+        }
+
+        if (strlen(idCliente) != 13 || !validoVerificar) {
+            printf("Error: El DPI debe tener exactamente 13 dígitos y contener solo números.\n");
+        }
+
+    } while (strlen(idCliente) != 13 || !validoVerificar);
     char query[200];
-    sprintf(query, "SELECT * FROM verCliente WHERE Dpi = %d;", idCliente);
+    sprintf(query, "SELECT * FROM verCliente WHERE Dpi = %s;", idCliente);
 
     if (mysql_query(con, query) != 0) {
         fprintf(stderr, "Error al ejecutar la consulta: %s\n", mysql_error(con));
@@ -312,7 +327,6 @@ void cancelarReservacion(MYSQL *con) {
     printf("\nReservación cancelada exitosamente.\n");
     printf("*******************************************************\n");
 }
-
 void generarFactura(MYSQL *con) {
     int idReservacion;
     printf("\n******************** Generar Factura ******************\n");
