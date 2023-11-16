@@ -168,6 +168,7 @@ void reservacionesClientePorId(MYSQL *con) {
         }
 
     } while (strlen(idCliente) != 13 || !validoVerificar);
+
     char query[200];
     sprintf(query, "SELECT * FROM verCliente WHERE Dpi = %s;", idCliente);
 
@@ -203,8 +204,8 @@ void reservacionesClientePorId(MYSQL *con) {
     mysql_free_result(result);
 }
 void agregarReservacion(MYSQL *con) {
-    int idHabitacion, idCliente;
-    char fechaIngreso[20], fechaSalida[20], estado[] = "Confirmada";
+    int idHabitacion;
+    char fechaIngreso[20], idCliente[20], fechaSalida[20], estado[] = "Confirmada";
 
     printf("\n***************** Agregar Reservación *****************\n");
     printf("Ingrese el número de habitación: ");
@@ -226,15 +227,51 @@ void agregarReservacion(MYSQL *con) {
     }
     mysql_free_result(resultVerificar);
 
-    printf("Ingrese el DPI del cliente: ");
-    scanf("%d", &idCliente);
+    int validoAgregar = 1;
+    do {
+        printf("Ingrese el DPI del cliente: ");
+        scanf("%s", idCliente);
+
+        validoAgregar = 1;
+        for (int i = 0; i < strlen(idCliente); i++) {
+            if (!isdigit(idCliente[i])) {
+                validoAgregar = 0;
+                break;
+            }
+        }
+
+        if (strlen(idCliente) != 13 || !validoAgregar) {
+            printf("Error: El DPI debe tener exactamente 13 dígitos y contener solo números.\n");
+        } else {
+            // Verificar la existencia del cliente
+            char queryVerificarR[100];
+            sprintf(queryVerificarR, "SELECT * FROM cliente WHERE IdCliente = %s;", idCliente);
+
+            if (mysql_query(con, queryVerificarR) != 0) {
+                fprintf(stderr, "Error al verificar la existencia del cliente: %s\n", mysql_error(con));
+                return;
+            }
+
+            MYSQL_RES *resultVerificarR = mysql_store_result(con);
+            if (mysql_num_rows(resultVerificar) == 0) {
+                printf("Error: El cliente con el DPI %s no existe.\n", idCliente);
+                printf("**********************************************************************************************\n");
+                mysql_free_result(resultVerificarR);
+                return;
+            }
+            mysql_free_result(resultVerificarR);
+        }
+
+    } while (strlen(idCliente) != 13 || !validoAgregar);
+
+
     printf("Ingrese fecha de ingreso (YYYY-MM-DD): ");
     scanf("%s", fechaIngreso);
     printf("Ingrese fecha de salida (YYYY-MM-DD): ");
     scanf("%s", fechaSalida);
 
     char query[300];
-    sprintf(query, "INSERT INTO reservacion (IdHabitacion, IdCliente, fecha_ingreso, fecha_salida, estado) VALUES (%d, %d, '%s', '%s', '%s');",
+    sprintf(query, "INSERT INTO reservacion (IdHabitacion, IdCliente, fecha_ingreso, fecha_salida, estado) VALUES (%d, %s, '%s', '%s', '%s');",
             idHabitacion, idCliente, fechaIngreso, fechaSalida, estado);
 
     if (mysql_query(con, query) != 0) {
