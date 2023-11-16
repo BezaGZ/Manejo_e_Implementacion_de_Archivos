@@ -1,7 +1,10 @@
 //
 // Created by Bezaleel on 13/11/23.
 //
+#include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 void verClientes(MYSQL *con) {
     MYSQL_RES *result = NULL;
@@ -29,16 +32,38 @@ void verClientes(MYSQL *con) {
     mysql_free_result(result);
 }
 void agregarCliente(MYSQL *con) {
-    int idCliente;
-    char nombre[50], apellido[50], email[100], telefono[20];
+
+    char nombre[50], apellido[50], email[100], telefono[20], idCliente[14];
 
     printf("\n************************************** Agregar Cliente **************************************\n");
 
     printf("Ingrese el DPI del nuevo cliente: ");
-    scanf("%d", &idCliente);
+    scanf("%s", idCliente);
+
+    int valido = 1;
+    for (int i = 0; i < strlen(idCliente); i++) {
+        if (!isdigit(idCliente[i])) {
+            valido = 0;
+            break;
+        }
+    }
+
+    while (strlen(idCliente) != 13 || !valido) {
+        printf("Error: El DPI debe tener exactamente 13 dígitos y contener solo números.\n");
+        printf("Ingrese el DPI del nuevo cliente: ");
+        scanf("%s", idCliente);
+
+        valido = 1;
+        for (int i = 0; i < strlen(idCliente); i++) {
+            if (!isdigit(idCliente[i])) {
+                valido = 0;
+                break;
+            }
+        }
+    }
 
     char queryVerificar[100];
-    sprintf(queryVerificar, "SELECT * FROM cliente WHERE IdCliente = %d;", idCliente);
+    sprintf(queryVerificar, "SELECT * FROM cliente WHERE IdCliente = '%s';", idCliente);
     if (mysql_query(con, queryVerificar) != 0) {
         fprintf(stderr, "Error al verificar el DPI del cliente: %s\n", mysql_error(con));
         return;
@@ -52,7 +77,6 @@ void agregarCliente(MYSQL *con) {
         return;
     }
     mysql_free_result(resultVerificar);
-
 
     printf("Ingrese el nombre del cliente: ");
     scanf("%s", nombre);
@@ -75,11 +99,32 @@ void agregarCliente(MYSQL *con) {
     printf("Ingrese el email del cliente: ");
     scanf("%s", email);
 
-    printf("Ingrese el teléfono del cliente, Formato: (XXXX-XXXX): ");
+    printf("Ingrese el teléfono del cliente, Formato: (XXXXXXXX): ");
     scanf("%s", telefono);
 
+    int validoTelefono = 1;
+    for (int i = 0; i < strlen(telefono); i++) {
+        if (!isdigit(telefono[i])) {
+            validoTelefono = 0;
+            break;
+        }
+    }
+
+    while (strlen(telefono) != 8 || !validoTelefono) {
+        printf("Error: El teléfono debe tener exactamente 8 dígitos y contener solo números.\n");
+        printf("Ingrese el teléfono del cliente, Formato: (XXXXXXXX): ");
+        scanf("%s", telefono);
+
+        validoTelefono = 1;
+        for (int i = 0; i < strlen(telefono); i++) {
+            if (!isdigit(telefono[i])) {
+                validoTelefono = 0;
+                break;
+            }
+        }
+    }
     char query[200];
-    sprintf(query, "INSERT INTO cliente (IdCliente, nombre, apellido, email, telefono) VALUES (%d, '%s', '%s', '%s', '%s');", idCliente, nombre, apellido, email, telefono);
+    sprintf(query, "INSERT INTO cliente (IdCliente, nombre, apellido, email, telefono) VALUES (%s, '%s', '%s', '%s', '%s');", idCliente, nombre, apellido, email, telefono);
 
     if (mysql_query(con, query) != 0) {
         fprintf(stderr, "Error al ejecutar la consulta: %s\n", mysql_error(con));
@@ -122,6 +167,7 @@ void eliminarCliente(MYSQL *con) {
 
     printf("Cliente eliminado con éxito.\n");
     printf("**********************************************************************************************\n");
+    return;
 }
 void actualizarCliente(MYSQL *con) {
     int idCliente;
@@ -150,8 +196,20 @@ void actualizarCliente(MYSQL *con) {
     printf("Ingrese el nuevo nombre del cliente: ");
     scanf("%s", nuevoNombre);
 
+    if (strlen(nuevoNombre) > 49) {
+        printf("Error: Longitud del nombre excede el límite permitido.\n");
+        printf("*********************************************************************************************\n");
+        return;
+    }
+
     printf("Ingrese el nuevo apellido del cliente: ");
     scanf("%s", nuevoApellido);
+
+    if (strlen(nuevoApellido) > 49) {
+        printf("Error: Longitud del apellido excede el límite permitido.\n");
+        printf("*********************************************************************************************\n");
+        return;
+    }
 
     printf("Ingrese el nuevo email del cliente: ");
     scanf("%s", nuevoEmail);
@@ -170,7 +228,6 @@ void actualizarCliente(MYSQL *con) {
     printf("Datos del cliente actualizados con éxito.\n");
     printf("************************************************************************************************\n");
 }
-
 void manejoClientes(MYSQL *con) {
     int opcion;
     char entrada[100];

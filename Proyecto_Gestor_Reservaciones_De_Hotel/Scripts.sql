@@ -6,7 +6,7 @@ CREATE TABLE habitacion (
 );
 
 CREATE TABLE cliente (
-    IdCliente INT NOT NULL PRIMARY KEY,
+    IdCliente BIGINT NOT NULL PRIMARY KEY,
     nombre VARCHAR(50),
     apellido VARCHAR(50),
     email VARCHAR(100),
@@ -15,9 +15,9 @@ CREATE TABLE cliente (
 
 
 CREATE TABLE reservacion (
-    IdReservacion INT PRIMARY KEY,
+    IdReservacion INT AUTO_INCREMENT PRIMARY KEY,
     IdHabitacion INT,
-    IdCliente INT,
+    IdCliente BIGINT,
     fecha_ingreso DATE,
     fecha_salida DATE,
     estado VARCHAR(50),
@@ -25,40 +25,6 @@ CREATE TABLE reservacion (
     FOREIGN KEY (IdCliente) REFERENCES cliente(IdCliente)
 );
 
-ALTER TABLE reservacion
-MODIFY COLUMN IdReservacion INT AUTO_INCREMENT;
-
-
-INSERT INTO habitacion (IdHabitacion, tipo, precio, estado)
-VALUES
-    (1, 'Individual', 100.00, 'Disponible'),
-    (2, 'Doble', 150.00, 'Disponible'),
-    (3, 'Suite', 200.00, 'Disponible'),
-    (4, 'Doble', 150.00, 'Disponible'),
-    (5, 'Individual', 100.00, 'Disponible'),
-    (6, 'Suite', 200.00, 'Disponible'),
-    (7, 'Doble', 150.00, 'Disponible'),
-    (8, 'Individual', 100.00, 'Disponible'),
-    (9, 'Doble', 150.00, 'Disponible'),
-    (10, 'Suite', 200.00, 'Disponible');
-
-
-INSERT INTO cliente (IdCliente, nombre, apellido, email, telefono)
-VALUES
-    (1, 'María', 'González', 'maria.gonzalez@email.com', '555-123-4567'),
-    (2, 'Juan', 'Pérez', 'juan.perez@email.com', '555-987-6543'),
-    (3, 'Carlos', 'Rodríguez', 'carlos.rodriguez@email.com', '555-456-7890'),
-    (4, 'Laura', 'López', 'laura.lopez@email.com', '555-321-0987'),
-    (5, 'Javier', 'Gómez', 'javier.gomez@email.com', '555-789-0123');
-
-
-INSERT INTO reservacion (IdReservacion, IdHabitacion, IdCliente, fecha_ingreso, fecha_salida, estado)
-VALUES
-    (1, 3, 2, '2023-01-10', '2023-01-15', 'Confirmada'),
-    (2, 1, 4, '2023-02-05', '2023-02-10', 'Confirmada'),
-    (3, 2, 1, '2023-03-20', '2023-03-25', 'Confirmada'),
-    (4, 4, 3, '2023-04-15', '2023-04-18', 'Cancelada'),
-    (5, 5, 5, '2023-05-01', '2023-05-05', 'Cancelada');
 
 CREATE VIEW verReservas AS
 SELECT
@@ -105,5 +71,43 @@ JOIN
 WHERE
     r.estado = 'Confirmada';
 
+INSERT INTO habitacion (IdHabitacion, tipo, precio, estado)
+VALUES
+    (1, 'Individual', 100.00, 'Disponible'),
+    (2, 'Doble', 150.00, 'Disponible'),
+    (3, 'Suite', 200.00, 'Disponible'),
+    (4, 'Doble', 150.00, 'Disponible'),
+    (5, 'Individual', 100.00, 'Disponible'),
+    (6, 'Suite', 200.00, 'Disponible'),
+    (7, 'Doble', 150.00, 'Disponible'),
+    (8, 'Individual', 100.00, 'Disponible'),
+    (9, 'Doble', 150.00, 'Disponible'),
+    (10, 'Suite', 200.00, 'Disponible');
 
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1035296865018, 'Brooks', 'Gallienne', 'bgallienne0@google.ru', '6246010110');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1256121534882, 'Almire', 'Clubley', 'aclubley1@icio.us', '4568962982');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1160491750810, 'Shandra', 'Capeling', 'scapeling2@xing.com', '6911455825');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1322099965297, 'Maxim', 'Stevens', 'mstevens3@deliciousdays.com', '9607386802');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1204801458366, 'Kathy', 'Zoane', 'kzoane4@chron.com', '6047976695');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1093170441173, 'Erny', 'Laurence', 'elaurence5@auda.org.au', '1234184388');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1076801627472, 'Reagan', 'Tash', 'rtash6@reuters.com', '7692133669');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1393952850586, 'Bartie', 'Pendrigh', 'bpendrigh7@irs.gov', '8523473997');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1147730524675, 'Julita', 'Paolinelli', 'jpaolinelli8@tiny.cc', '7642738306');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1057845557885, 'Carly', 'Dinsmore', 'cdinsmore9@mtv.com', '8593464149');
 
+-- Obtener la fecha actual en formato yyyy-mm-dd
+SET @fecha_actual = CURDATE();
+
+-- Insertar reservaciones con fechas realistas
+INSERT INTO reservacion (IdHabitacion, IdCliente, fecha_ingreso, fecha_salida, estado)
+VALUES
+    (1, 1035296865018, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 3 DAY), 'Confirmada'),
+    (2, 1256121534882, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 5 DAY), 'Confirmada'),
+    (3, 1160491750810, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 7 DAY), 'Confirmada'),
+    (4, 1322099965297, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 10 DAY), 'Confirmada'),
+    (5, 1204801458366, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 14 DAY), 'Confirmada'),
+    (6, 1093170441173, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 16 DAY), 'Confirmada'),
+    (7, 1076801627472, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 20 DAY), 'Confirmada'),
+    (8, 1393952850586, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 22 DAY), 'Confirmada'),
+    (9, 1147730524675, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 25 DAY), 'Confirmada'),
+    (10, 1057845557885, @fecha_actual, DATE_ADD(@fecha_actual, INTERVAL 30 DAY), 'Confirmada');

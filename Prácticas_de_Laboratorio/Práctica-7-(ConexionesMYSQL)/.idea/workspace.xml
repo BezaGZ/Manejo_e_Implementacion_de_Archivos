@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3af564a2-2e76-49c9-bb3e-3a10ef120f2b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Proyecto_Gestor_Reservaciones_De_Hotel/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Proyecto_Gestor_Reservaciones_De_Hotel/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica-2-(Lectura y escritura)/Practica 2 (Lectura y escritura)/cuatro" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica-2-(Lectura y escritura)/Practica 2 (Lectura y escritura)/cuatro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/3.26.4/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/3.26.4/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" afterPath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/CMakeCCompilerId.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/CMakeCCompilerId.o" beforeDir="false" afterPath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/CMakeCCompilerId.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/main" beforeDir="false" afterPath="$PROJECT_DIR$/../Práctica-6-(TablaDeDispersionDeArchivos)/main" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2YBYpjeWlWdOEgNKsupfh1BRJwh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/beza/Desktop/Manejo_e_Implementacion_de_Archivos/Prácticas_de_Laboratorio/Práctica-7-(ConexionesMYSQL)",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="C/C++ File.BaseDeDatos_InsertUpdateDelete.c">
+    <configuration name="BaseDeDatos_InsertUpdateDelete.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Práctica-7-(ConexionesMYSQL)" TARGET_NAME="BaseDeDatos_InsertUpdateDelete.c" CONFIG_NAME="BaseDeDatos_InsertUpdateDelete.c">
+      <option name="compilerOptions" value="-I /opt/homebrew/Cellar/mysql-client/8.1.0/include -L /opt/homebrew/Cellar/mysql-client/8.1.0/lib -lmysqlclient" />
+      <option name="sourceFile" value="$PROJECT_DIR$/untitled/BaseDeDatos_InsertUpdateDelete.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ejemplo1.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Práctica-7-(ConexionesMYSQL)" TARGET_NAME="ejemplo1.c" CONFIG_NAME="ejemplo1.c">
+      <option name="compilerOptions" value="-I /opt/homebrew/Cellar/mysql-client/8.1.0/include -L /opt/homebrew/Cellar/mysql-client/8.1.0/lib -lmysqlclient" />
+      <option name="sourceFile" value="$PROJECT_DIR$/untitled/ejemplo1.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ejemplo2.1.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Práctica-7-(ConexionesMYSQL)" TARGET_NAME="ejemplo2.1.c" CONFIG_NAME="ejemplo2.1.c">
+      <option name="compilerOptions" value="-I /opt/homebrew/Cellar/mysql-client/8.1.0/include -L /opt/homebrew/Cellar/mysql-client/8.1.0/lib -lmysqlclient" />
+      <option name="sourceFile" value="$PROJECT_DIR$/untitled/ejemplo2.1.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ejemplo2.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Práctica-7-(ConexionesMYSQL)" TARGET_NAME="ejemplo2.c" CONFIG_NAME="ejemplo2.c">
+      <option name="compilerOptions" value="-I /opt/homebrew/Cellar/mysql-client/8.1.0/include -L /opt/homebrew/Cellar/mysql-client/8.1.0/lib -lmysqlclient" />
+      <option name="sourceFile" value="$PROJECT_DIR$/untitled/ejemplo2.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="C/C++ File.ejemplo1.c" />
+      <item itemvalue="C/C++ File.ejemplo2.1.c" />
+      <item itemvalue="C/C++ File.ejemplo2.c" />
+      <item itemvalue="C/C++ File.BaseDeDatos_InsertUpdateDelete.c" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3af564a2-2e76-49c9-bb3e-3a10ef120f2b" name="Changes" comment="" />
+      <created>1700000625729</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700000625729</updated>
+      <workItem from="1700000627032" duration="800000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

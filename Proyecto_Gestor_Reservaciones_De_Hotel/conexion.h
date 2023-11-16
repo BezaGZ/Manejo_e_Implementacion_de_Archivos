@@ -8,6 +8,6 @@
 #define PORT 33060
 #define USERNAME "root"
 #define PASSWORD "20191717"
-#define DATABASE "DBReservacion"
+#define DATABASE "ReservacionDB"
 
 #endif //PROYECTOARCHIVOS_CONEXION_H
