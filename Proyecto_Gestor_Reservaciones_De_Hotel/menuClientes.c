@@ -33,7 +33,7 @@ void verClientes(MYSQL *con) {
 }
 void agregarCliente(MYSQL *con) {
 
-    char nombre[50], apellido[50], email[100], telefono[20], idCliente[14];
+    char nombre[50], apellido[50], email[100], telefono[20], idCliente[20];
 
     printf("\n************************************** Agregar Cliente **************************************\n");
 
@@ -135,14 +135,31 @@ void agregarCliente(MYSQL *con) {
     printf("*********************************************************************************************\n");
 }
 void eliminarCliente(MYSQL *con) {
-    int idCliente;
+    char idCliente[20];
 
     printf("\n************************************** Eliminar Cliente **************************************\n");
-    printf("Ingrese el DPI del cliente que desea eliminar: ");
-    scanf("%d", &idCliente);
+
+    int validoEliminar = 1;
+    do {
+        printf("Ingrese el DPI del cliente que desea eliminar: ");
+        scanf("%s", idCliente);
+
+        validoEliminar = 1;
+        for (int i = 0; i < strlen(idCliente); i++) {
+            if (!isdigit(idCliente[i])) {
+                validoEliminar = 0;
+                break;
+            }
+        }
+
+        if (strlen(idCliente) != 13 || !validoEliminar) {
+            printf("Error: El DPI debe tener exactamente 13 dígitos y contener solo números.\n");
+        }
+
+    } while (strlen(idCliente) != 13 || !validoEliminar);
 
     char queryVerificar[100];
-    sprintf(queryVerificar, "SELECT * FROM cliente WHERE IdCliente = %d;", idCliente);
+    sprintf(queryVerificar, "SELECT * FROM cliente WHERE IdCliente = %s;", idCliente);
     if (mysql_query(con, queryVerificar) != 0) {
         fprintf(stderr, "Error al verificar la existencia del cliente: %s\n", mysql_error(con));
         return;
@@ -150,7 +167,7 @@ void eliminarCliente(MYSQL *con) {
 
     MYSQL_RES *resultVerificar = mysql_store_result(con);
     if (mysql_num_rows(resultVerificar) == 0) {
-        printf("Error: El cliente con el DPI %d no existe.\n", idCliente);
+        printf("Error: El cliente con el DPI %s no existe.\n", idCliente);
         printf("**********************************************************************************************\n");
         mysql_free_result(resultVerificar);
         return;
@@ -158,7 +175,7 @@ void eliminarCliente(MYSQL *con) {
     mysql_free_result(resultVerificar);
 
     char query[100];
-    sprintf(query, "DELETE FROM cliente WHERE IdCliente = %d;", idCliente);
+    sprintf(query, "DELETE FROM cliente WHERE IdCliente = %s;", idCliente);
 
     if (mysql_query(con, query) != 0) {
         fprintf(stderr, "Error al ejecutar la consulta: %s\n", mysql_error(con));
@@ -167,7 +184,7 @@ void eliminarCliente(MYSQL *con) {
 
     printf("Cliente eliminado con éxito.\n");
     printf("**********************************************************************************************\n");
-    return;
+
 }
 void actualizarCliente(MYSQL *con) {
     int idCliente;
