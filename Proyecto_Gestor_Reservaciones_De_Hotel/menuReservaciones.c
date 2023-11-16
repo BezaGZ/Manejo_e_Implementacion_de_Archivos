@@ -211,21 +211,21 @@ void agregarReservacion(MYSQL *con) {
     printf("Ingrese el número de habitación: ");
     scanf("%d", &idHabitacion);
 
-    char queryVerificar[100];
-    sprintf(queryVerificar, "SELECT * FROM habitacion WHERE IdHabitacion = %d;", idHabitacion);
-    if (mysql_query(con, queryVerificar) != 0) {
+    char queryVerificarHabitacion[100];
+    sprintf(queryVerificarHabitacion, "SELECT * FROM habitacion WHERE IdHabitacion = %d;", idHabitacion);
+    if (mysql_query(con, queryVerificarHabitacion) != 0) {
         fprintf(stderr, "Error al verificar la habitación: %s\n", mysql_error(con));
         return;
     }
 
-    MYSQL_RES *resultVerificar = mysql_store_result(con);
-    if (mysql_num_rows(resultVerificar) == 0) {
+    MYSQL_RES *resultVerificarHabitacion = mysql_store_result(con);
+    if (mysql_num_rows(resultVerificarHabitacion) == 0) {
         printf("Error: La habitación con el número %d no existe.\n", idHabitacion);
         printf("*******************************************************\n");
-        mysql_free_result(resultVerificar);
+        mysql_free_result(resultVerificarHabitacion);
         return;
     }
-    mysql_free_result(resultVerificar);
+    mysql_free_result(resultVerificarHabitacion);
 
     int validoAgregar = 1;
     do {
@@ -244,29 +244,46 @@ void agregarReservacion(MYSQL *con) {
             printf("Error: El DPI debe tener exactamente 13 dígitos y contener solo números.\n");
         } else {
             // Verificar la existencia del cliente
-            char queryVerificarR[100];
-            sprintf(queryVerificarR, "SELECT * FROM cliente WHERE IdCliente = %s;", idCliente);
+            char queryVerificarCliente[100];
+            sprintf(queryVerificarCliente, "SELECT * FROM cliente WHERE IdCliente = %s;", idCliente);
 
-            if (mysql_query(con, queryVerificarR) != 0) {
+            if (mysql_query(con, queryVerificarCliente) != 0) {
                 fprintf(stderr, "Error al verificar la existencia del cliente: %s\n", mysql_error(con));
                 return;
             }
 
-            MYSQL_RES *resultVerificarR = mysql_store_result(con);
-            if (mysql_num_rows(resultVerificar) == 0) {
+            MYSQL_RES *resultVerificarCliente = mysql_store_result(con);
+            if (mysql_num_rows(resultVerificarCliente) == 0) {
                 printf("Error: El cliente con el DPI %s no existe.\n", idCliente);
                 printf("**********************************************************************************************\n");
-                mysql_free_result(resultVerificarR);
+                mysql_free_result(resultVerificarCliente);
                 return;
             }
-            mysql_free_result(resultVerificarR);
+            mysql_free_result(resultVerificarCliente);
         }
 
     } while (strlen(idCliente) != 13 || !validoAgregar);
 
-
     printf("Ingrese fecha de ingreso (YYYY-MM-DD): ");
     scanf("%s", fechaIngreso);
+
+    char queryVerificarReservacion[200];
+    sprintf(queryVerificarReservacion, "SELECT * FROM reservacion WHERE IdHabitacion = %d AND fecha_ingreso = '%s';", idHabitacion, fechaIngreso);
+
+    if (mysql_query(con, queryVerificarReservacion) != 0) {
+        fprintf(stderr, "Error al verificar la existencia de reservaciones: %s\n", mysql_error(con));
+        return;
+    }
+
+    MYSQL_RES *resultVerificarReservacion = mysql_store_result(con);
+    if (mysql_num_rows(resultVerificarReservacion) > 0) {
+        printf("Error: Ya hay una reservación para la habitación %d en la fecha de ingreso %s.\n", idHabitacion, fechaIngreso);
+        printf("*******************************************************\n");
+        mysql_free_result(resultVerificarReservacion);
+        return;
+    }
+    mysql_free_result(resultVerificarReservacion);
+
     printf("Ingrese fecha de salida (YYYY-MM-DD): ");
     scanf("%s", fechaSalida);
 
