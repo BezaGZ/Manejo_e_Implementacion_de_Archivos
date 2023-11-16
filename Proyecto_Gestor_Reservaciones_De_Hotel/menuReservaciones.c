@@ -243,7 +243,6 @@ void agregarReservacion(MYSQL *con) {
         if (strlen(idCliente) != 13 || !validoAgregar) {
             printf("Error: El DPI debe tener exactamente 13 dígitos y contener solo números.\n");
         } else {
-            // Verificar la existencia del cliente
             char queryVerificarCliente[100];
             sprintf(queryVerificarCliente, "SELECT * FROM cliente WHERE IdCliente = %s;", idCliente);
 
@@ -264,25 +263,45 @@ void agregarReservacion(MYSQL *con) {
 
     } while (strlen(idCliente) != 13 || !validoAgregar);
 
+
+
+
+
     printf("Ingrese fecha de ingreso (YYYY-MM-DD): ");
     scanf("%s", fechaIngreso);
 
-    char queryVerificarReservacion[200];
-    sprintf(queryVerificarReservacion, "SELECT * FROM reservacion WHERE IdHabitacion = %d AND fecha_ingreso = '%s';", idHabitacion, fechaIngreso);
+    char queryVerificarReservacionExistente[200];
+    sprintf(queryVerificarReservacionExistente, "SELECT * FROM reservacion WHERE IdHabitacion = %d AND fecha_ingreso = '%s' AND estado != 'Cancelada';", idHabitacion, fechaIngreso);
 
-    if (mysql_query(con, queryVerificarReservacion) != 0) {
+    if (mysql_query(con, queryVerificarReservacionExistente) != 0) {
         fprintf(stderr, "Error al verificar la existencia de reservaciones: %s\n", mysql_error(con));
         return;
     }
 
-    MYSQL_RES *resultVerificarReservacion = mysql_store_result(con);
-    if (mysql_num_rows(resultVerificarReservacion) > 0) {
-        printf("Error: Ya hay una reservación para la habitación %d en la fecha de ingreso %s.\n", idHabitacion, fechaIngreso);
-        printf("*******************************************************\n");
-        mysql_free_result(resultVerificarReservacion);
+    MYSQL_RES *resultVerificarReservacionExistente = mysql_store_result(con);
+    if (!resultVerificarReservacionExistente) {
+        fprintf(stderr, "Error al obtener el resultado de la consulta de reservación existente: %s\n", mysql_error(con));
         return;
     }
-    mysql_free_result(resultVerificarReservacion);
+
+    if (mysql_num_rows(resultVerificarReservacionExistente) > 0) {
+        MYSQL_ROW rowReservacionExistente = mysql_fetch_row(resultVerificarReservacionExistente);
+        if (strcmp(rowReservacionExistente[4], "Cancelada") == 0) {
+            printf("Puede registrar la nueva reserva ya que la reserva anterior está cancelada.\n");
+        } else {
+            printf("Error: Ya hay una reserva confirmada para la habitación %d en la fecha de ingreso %s.\n", idHabitacion, fechaIngreso);
+            printf("*******************************************************\n");
+            mysql_free_result(resultVerificarReservacionExistente);
+            return;
+        }
+    }
+
+    mysql_free_result(resultVerificarReservacionExistente);
+
+
+
+
+
 
     printf("Ingrese fecha de salida (YYYY-MM-DD): ");
     scanf("%s", fechaSalida);
@@ -317,7 +336,6 @@ void agregarReservacion(MYSQL *con) {
     int idReservacion = atoi(row[0]);
     mysql_free_result(resultId);
 
-// Imprimir los datos de la reservación
     printf("\n*******************************************************\n");
     printf("Reservación agregada exitosamente.\n");
     printf("Número de Reservación: %d\n", idReservacion);
