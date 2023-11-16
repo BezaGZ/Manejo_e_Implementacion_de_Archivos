@@ -296,8 +296,38 @@ void agregarReservacion(MYSQL *con) {
         return;
     }
 
-    printf("\nReservación agregada exitosamente.\n");
+    if (mysql_query(con, "SELECT LAST_INSERT_ID();") != 0) {
+        fprintf(stderr, "Error al obtener el ID de la última fila insertada: %s\n", mysql_error(con));
+        return;
+    }
+
+    MYSQL_RES *resultId = mysql_store_result(con);
+    if (!resultId) {
+        fprintf(stderr, "Error al obtener el resultado de la consulta para el ID: %s\n", mysql_error(con));
+        return;
+    }
+
+    MYSQL_ROW row = mysql_fetch_row(resultId);
+    if (!row) {
+        fprintf(stderr, "Error: No se pudo obtener el ID de la última fila insertada.\n");
+        mysql_free_result(resultId);
+        return;
+    }
+
+    int idReservacion = atoi(row[0]);
+    mysql_free_result(resultId);
+
+// Imprimir los datos de la reservación
+    printf("\n*******************************************************\n");
+    printf("Reservación agregada exitosamente.\n");
+    printf("Número de Reservación: %d\n", idReservacion);
+    printf("Habitación: %d\n", idHabitacion);
+    printf("DPI del Cliente: %s\n", idCliente);
+    printf("Fecha de Ingreso: %s\n", fechaIngreso);
+    printf("Fecha de Salida: %s\n", fechaSalida);
+    printf("Estado: %s\n", estado);
     printf("*******************************************************\n");
+    return;
 }
 void actualizarReservacion(MYSQL *con) {
     int idReservacion;
