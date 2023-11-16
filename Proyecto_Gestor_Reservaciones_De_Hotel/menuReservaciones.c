@@ -374,8 +374,40 @@ void actualizarReservacion(MYSQL *con) {
 
     printf("Ingrese la nueva fecha de ingreso (YYYY-MM-DD): ");
     scanf("%s", nuevaFechaIngreso);
+
+    struct tm tm_fecha;
+    if (strptime(nuevaFechaIngreso, "%Y-%m-%d", &tm_fecha) == NULL) {
+        printf("Error: El formato de la fecha de ingreso no es válido.\n");
+        printf("*******************************************************\n");
+        return;
+    }
+
+
+    char queryConflictos[300];
+
+    sprintf(queryConflictos, "SELECT * FROM reservacion WHERE IdReservacion != %d AND IdHabitacion = (SELECT IdHabitacion FROM reservacion WHERE IdReservacion = %d) AND (('%s' BETWEEN fecha_ingreso AND fecha_salida) OR ('%s' BETWEEN fecha_ingreso AND fecha_salida));", idReservacion, idReservacion, nuevaFechaIngreso, nuevaFechaIngreso);
+    if (mysql_query(con, queryConflictos) != 0) {
+        fprintf(stderr, "Error al verificar conflictos de fechas: %s\n", mysql_error(con));
+        return;
+    }
+
+    MYSQL_RES *resultConflictos = mysql_store_result(con);
+    if (mysql_num_rows(resultConflictos) > 0) {
+        printf("Error: La nueva fecha de ingreso coincide con otra reservación en la misma habitación.\n");
+        printf("*******************************************************\n");
+        mysql_free_result(resultConflictos);
+        return;
+    }
+    mysql_free_result(resultConflictos);
     printf("Ingrese la nueva fecha de salida (YYYY-MM-DD): ");
     scanf("%s", nuevaFechaSalida);
+
+    struct tm tm_fecha1;
+    if (strptime(nuevaFechaIngreso, "%Y-%m-%d", &tm_fecha) == NULL) {
+        printf("Error: El formato de la fecha de ingreso no es válido.\n");
+        printf("*******************************************************\n");
+        return;
+    }
 
     char query[200];
     sprintf(query, "UPDATE reservacion SET fecha_ingreso = '%s', fecha_salida = '%s' WHERE IdReservacion = %d;", nuevaFechaIngreso, nuevaFechaSalida, idReservacion);
@@ -388,6 +420,7 @@ void actualizarReservacion(MYSQL *con) {
     printf("\nFechas de la Reservación actualizadas exitosamente.\n");
     printf("*******************************************************\n");
 }
+
 void cancelarReservacion(MYSQL *con) {
     int idReservacion;
     printf("\n***************** Cancelar Reservación ****************\n");
