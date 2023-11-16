@@ -187,15 +187,31 @@ void eliminarCliente(MYSQL *con) {
 
 }
 void actualizarCliente(MYSQL *con) {
-    int idCliente;
-    char nuevoNombre[50], nuevoApellido[50], nuevoEmail[100], nuevoTelefono[20];
+    char nuevoNombre[50], nuevoApellido[50], nuevoEmail[100], nuevoTelefono[20], idCliente[20];
 
     printf("\n************************************** Actualizar Cliente **************************************\n");
-    printf("Ingrese el DPI del cliente que desea actualizar: ");
-    scanf("%d", &idCliente);
+
+    int validoActualizar = 1;
+    do {
+        printf("Ingrese el DPI del cliente que desea actualizar: ");
+        scanf("%s", idCliente);
+
+        validoActualizar = 1;
+        for (int i = 0; i < strlen(idCliente); i++) {
+            if (!isdigit(idCliente[i])) {
+                validoActualizar = 0;
+                break;
+            }
+        }
+
+        if (strlen(idCliente) != 13 || !validoActualizar) {
+            printf("Error: El DPI debe tener exactamente 13 dígitos y contener solo números.\n");
+        }
+
+    } while (strlen(idCliente) != 13 || !validoActualizar);
 
     char queryVerificar[100];
-    sprintf(queryVerificar, "SELECT * FROM cliente WHERE IdCliente = %d;", idCliente);
+    sprintf(queryVerificar, "SELECT * FROM cliente WHERE IdCliente = %s;", idCliente);
     if (mysql_query(con, queryVerificar) != 0) {
         fprintf(stderr, "Error al verificar la existencia del cliente: %s\n", mysql_error(con));
         return;
@@ -203,7 +219,7 @@ void actualizarCliente(MYSQL *con) {
 
     MYSQL_RES *resultVerificar = mysql_store_result(con);
     if (mysql_num_rows(resultVerificar) == 0) {
-        printf("Error: El cliente con el DPI %d no existe.\n", idCliente);
+        printf("Error: El cliente con el DPI %s no existe.\n", idCliente);
         printf("************************************************************************************************\n");
         mysql_free_result(resultVerificar);
         return;
@@ -231,11 +247,33 @@ void actualizarCliente(MYSQL *con) {
     printf("Ingrese el nuevo email del cliente: ");
     scanf("%s", nuevoEmail);
 
-    printf("Ingrese el nuevo teléfono del cliente: ");
+    printf("Ingrese el nuevo teléfono del cliente, Formato: (XXXXXXXX): ");
     scanf("%s", nuevoTelefono);
 
+    int validoTelefono = 1;
+    for (int i = 0; i < strlen(nuevoTelefono); i++) {
+        if (!isdigit(nuevoTelefono[i])) {
+            validoTelefono = 0;
+            break;
+        }
+    }
+
+    while (strlen(nuevoTelefono) != 8 || !validoTelefono) {
+        printf("Error: El teléfono debe tener exactamente 8 dígitos y contener solo números.\n");
+        printf("Ingrese el nuevo teléfono del cliente, Formato: (XXXXXXXX): ");
+        scanf("%s", nuevoTelefono);
+
+        validoTelefono = 1;
+        for (int i = 0; i < strlen(nuevoTelefono); i++) {
+            if (!isdigit(nuevoTelefono[i])) {
+                validoTelefono = 0;
+                break;
+            }
+        }
+    }
+
     char query[200];
-    sprintf(query, "UPDATE cliente SET nombre = '%s', apellido = '%s', email = '%s', telefono = '%s' WHERE IdCliente = %d;", nuevoNombre, nuevoApellido, nuevoEmail, nuevoTelefono, idCliente);
+    sprintf(query, "UPDATE cliente SET nombre = '%s', apellido = '%s', email = '%s', telefono = '%s' WHERE IdCliente = %s;", nuevoNombre, nuevoApellido, nuevoEmail, nuevoTelefono, idCliente);
 
     if (mysql_query(con, query) != 0) {
         fprintf(stderr, "Error al ejecutar la consulta: %s\n", mysql_error(con));
