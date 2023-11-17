@@ -362,10 +362,10 @@ void actualizarReservacion(MYSQL *con) {
     int idReservacion;
     char nuevaFechaIngreso[20], nuevaFechaSalida[20];
 
+
     printf("\n**************** Modificar Reservación ****************\n");
     printf("Ingrese el número de reservación a actualizar: ");
     scanf("%d", &idReservacion);
-
 
     char queryVerificar[100];
     sprintf(queryVerificar, "SELECT * FROM reservacion WHERE IdReservacion = %d;", idReservacion);
@@ -381,7 +381,18 @@ void actualizarReservacion(MYSQL *con) {
         mysql_free_result(resultVerificar);
         return;
     }
+
+    MYSQL_ROW row = mysql_fetch_row(resultVerificar);
+    char *estadoReservacion = row[5];
     mysql_free_result(resultVerificar);
+
+    if (strcmp(estadoReservacion, "Cancelada") == 0) {
+        printf("Error: No se puede actualizar la reservación porque está cancelada.\n");
+        printf("*******************************************************\n");
+        return;
+    }
+
+
 
     printf("Ingrese la nueva fecha de ingreso (YYYY-MM-DD): ");
     scanf("%s", nuevaFechaIngreso);
@@ -393,8 +404,9 @@ void actualizarReservacion(MYSQL *con) {
         return;
     }
 
+
     char queryConflictos[300];
-    sprintf(queryConflictos, "SELECT * FROM reservacion WHERE IdReservacion != %d AND IdHabitacion = (SELECT IdHabitacion FROM reservacion WHERE IdReservacion = %d) AND (('%s' BETWEEN fecha_ingreso AND fecha_salida) OR ('%s' BETWEEN fecha_ingreso AND fecha_salida));", idReservacion, idReservacion, nuevaFechaIngreso, nuevaFechaIngreso);
+    sprintf(queryConflictos, "SELECT * FROM reservacion WHERE IdReservacion != %d AND IdHabitacion = (SELECT IdHabitacion FROM reservacion WHERE IdReservacion = %d) AND estado = 'Confirmada' AND (('%s' BETWEEN fecha_ingreso AND fecha_salida) OR ('%s' BETWEEN fecha_ingreso AND fecha_salida));", idReservacion, idReservacion, nuevaFechaIngreso, nuevaFechaIngreso);
     if (mysql_query(con, queryConflictos) != 0) {
         fprintf(stderr, "Error al verificar conflictos de fechas: %s\n", mysql_error(con));
         return;
@@ -402,17 +414,37 @@ void actualizarReservacion(MYSQL *con) {
 
     MYSQL_RES *resultConflictos = mysql_store_result(con);
     if (mysql_num_rows(resultConflictos) > 0) {
-        printf("Error: La nueva fecha de ingreso coincide con otra reservación en la misma habitación.\n");
+        printf("Error: La nueva fecha de ingreso coincide con otra reservación confirmada en la misma habitación.\n");
         printf("*******************************************************\n");
         mysql_free_result(resultConflictos);
         return;
     }
+// Verificar si ya existe una reservación confirmada para la misma habitación con la nueva fecha de ingreso
+    char queryExistencia[300];
+    sprintf(queryExistencia, "SELECT * FROM reservacion WHERE IdHabitacion = (SELECT IdHabitacion FROM reservacion WHERE IdReservacion = %d) AND fecha_ingreso = '%s' AND estado = 'Confirmada';", idReservacion, nuevaFechaIngreso);
+    if (mysql_query(con, queryExistencia) != 0) {
+        fprintf(stderr, "Error al verificar la existencia de reservaciones confirmadas: %s\n", mysql_error(con));
+        return;
+    }
+
+    MYSQL_RES *resultExistencia = mysql_store_result(con);
+    if (mysql_num_rows(resultExistencia) > 0) {
+        printf("Error: Ya hay una reservación confirmada para la misma habitación en la nueva fecha de ingreso.\n");
+        printf("*******************************************************\n");
+        mysql_free_result(resultExistencia);
+        return;
+    }
+
     mysql_free_result(resultConflictos);
+    mysql_free_result(resultExistencia);
+
+
+
     printf("Ingrese la nueva fecha de salida (YYYY-MM-DD): ");
     scanf("%s", nuevaFechaSalida);
 
-
-    if (strptime(nuevaFechaIngreso, "%Y-%m-%d", &tm_fecha) == NULL) {
+    struct tm tm_fecha_1;
+    if (strptime(nuevaFechaSalida, "%Y-%m-%d", &tm_fecha_1) == NULL) {
         printf("Error: El formato de la fecha de ingreso no es válido.\n");
         printf("*******************************************************\n");
         return;
