@@ -1,3 +1,5 @@
+CREATE DATABASE ReservacionDB;
+
 CREATE TABLE habitacion (
     IdHabitacion INT NOT NULL PRIMARY KEY,
     tipo VARCHAR(50),
@@ -71,6 +73,7 @@ JOIN
 WHERE
     r.estado = 'Confirmada';
 
+--Inserta Habitaciones
 INSERT INTO habitacion (IdHabitacion, tipo, precio, estado)
 VALUES
     (1, 'Individual', 100.00, 'Disponible'),
@@ -84,16 +87,17 @@ VALUES
     (9, 'Doble', 150.00, 'Disponible'),
     (10, 'Suite', 200.00, 'Disponible');
 
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1035296865018, 'Brooks', 'Gallienne', 'bgallienne0@google.ru', '6246010110');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1256121534882, 'Almire', 'Clubley', 'aclubley1@icio.us', '4568962982');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1160491750810, 'Shandra', 'Capeling', 'scapeling2@xing.com', '6911455825');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1322099965297, 'Maxim', 'Stevens', 'mstevens3@deliciousdays.com', '9607386802');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1204801458366, 'Kathy', 'Zoane', 'kzoane4@chron.com', '6047976695');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1093170441173, 'Erny', 'Laurence', 'elaurence5@auda.org.au', '1234184388');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1076801627472, 'Reagan', 'Tash', 'rtash6@reuters.com', '7692133669');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1393952850586, 'Bartie', 'Pendrigh', 'bpendrigh7@irs.gov', '8523473997');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1147730524675, 'Julita', 'Paolinelli', 'jpaolinelli8@tiny.cc', '7642738306');
-insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1057845557885, 'Carly', 'Dinsmore', 'cdinsmore9@mtv.com', '8593464149');
+--Insertar Clientes
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1035296865018, 'Brooks', 'Gallienne', 'bgallienne0@google.ru', '62460101');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1256121534882, 'Almire', 'Clubley', 'aclubley1@icio.us', '45689629');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1160491750810, 'Shandra', 'Capeling', 'scapeling2@xing.com', '69114558');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1322099965297, 'Maxim', 'Stevens', 'mstevens3@deliciousdays.com', '96073868');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1204801458366, 'Kathy', 'Zoane', 'kzoane4@chron.com', '60479766');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1093170441173, 'Erny', 'Laurence', 'elaurence5@auda.org.au', '12341843');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1076801627472, 'Reagan', 'Tash', 'rtash6@reuters.com', '76921336');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1393952850586, 'Bartie', 'Pendrigh', 'bpendrigh7@irs.gov', '85234739');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1147730524675, 'Julita', 'Paolinelli', 'jpaolinelli8@tiny.cc', '76427383');
+insert into cliente (IdCLiente, nombre, apellido, email, telefono) values (1057845557885, 'Carly', 'Dinsmore', 'cdinsmore9@mtv.com', '85934641');
 
 -- Obtener la fecha actual en formato yyyy-mm-dd
 SET @fecha_actual = CURDATE();

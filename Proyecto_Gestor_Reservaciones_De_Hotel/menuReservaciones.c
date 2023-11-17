@@ -23,7 +23,6 @@ void imprimirResultado(MYSQL_RES *result) {
 void verReservacionesFechaEspecifica(MYSQL *con) {
     char fecha[20];
     struct tm tm_fecha;
-
     printf("\n*********** Reservasciones Fecha de Ingreso ***********\n");
     printf("Ingrese la fecha de ingreso (YYYY-MM-DD): ");
     scanf("%s", fecha);
@@ -261,9 +260,6 @@ void agregarReservacion(MYSQL *con) {
     } while (strlen(idCliente) != 13 || !validoAgregar);
 
 
-
-
-
     printf("Ingrese fecha de ingreso (YYYY-MM-DD): ");
     scanf("%s", fechaIngreso);
 
@@ -461,7 +457,6 @@ void actualizarReservacion(MYSQL *con) {
     printf("\nFechas de la Reservación actualizadas exitosamente.\n");
     printf("*******************************************************\n");
 }
-
 void cancelarReservacion(MYSQL *con) {
     int idReservacion;
     printf("\n***************** Cancelar Reservación ****************\n");

@@ -52,11 +52,15 @@
 /*función agregarReservacion();*/
     /*verifica la habitación(IdHabitacion)*/
     SELECT * FROM habitacion WHERE IdHabitacion = '';
+    /*verifica el dpi(IdCliente)*/
+    SELECT * FROM cliente WHERE IdCliente = '';
     /*Inserta*/
     INSERT INTO reservacion (IdHabitacion, IdCliente, fecha_ingreso, fecha_salida, estado) VALUES ('','','','','');
 /*función actualizarReservacion();*/
     /*verifica la reservacion(IdReservacion)*/
     SELECT * FROM reservacion WHERE IdReservacion = '';
+    /*verifica si se asigna un valor repetido a fecha de ingreso para la misma habitacion con Estado: "Confimada"*/
+    SELECT * FROM reservacion WHERE IdHabitacion = (SELECT IdHabitacion FROM reservacion WHERE IdReservacion = '') AND fecha_ingreso = '' AND estado = 'Confirmada';
     /*actualiza*/
     UPDATE reservacion SET fecha_ingreso = '', fecha_salida = '' WHERE IdReservacion = '';
 /*función cancelarReservacion();*/
