@@ -184,13 +184,10 @@ void reservacionesClientePorId(MYSQL *con) {
         return;
     }
 
-
     if (mysql_num_rows(result) == 0) {
-
-        printf("No se encuentra el cliente registrado con el DPI proporcionado.\n");
+        printf("No hay reservaciones para el cliente con el DPI proporcionado o el DPI no existe.\n");
         printf("*******************************************************\n");
     } else {
-
         MYSQL_ROW row;
         while ((row = mysql_fetch_row(result)) != NULL) {
             printf("\n*******************************\n");
@@ -254,7 +251,7 @@ void agregarReservacion(MYSQL *con) {
             MYSQL_RES *resultVerificarCliente = mysql_store_result(con);
             if (mysql_num_rows(resultVerificarCliente) == 0) {
                 printf("Error: El cliente con el DPI %s no existe.\n", idCliente);
-                printf("**********************************************************************************************\n");
+                printf("*******************************************************\n");
                 mysql_free_result(resultVerificarCliente);
                 return;
             }
@@ -269,6 +266,13 @@ void agregarReservacion(MYSQL *con) {
 
     printf("Ingrese fecha de ingreso (YYYY-MM-DD): ");
     scanf("%s", fechaIngreso);
+
+    struct tm tm_fecha;
+    if (strptime(fechaIngreso, "%Y-%m-%d", &tm_fecha) == NULL) {
+        printf("Error: El formato de la fecha de ingreso no es válido.\n");
+        printf("*******************************************************\n");
+        return;
+    }
 
     char queryVerificarReservacionExistente[200];
     sprintf(queryVerificarReservacionExistente, "SELECT * FROM reservacion WHERE IdHabitacion = %d AND fecha_ingreso = '%s' AND estado != 'Cancelada';", idHabitacion, fechaIngreso);
@@ -305,6 +309,13 @@ void agregarReservacion(MYSQL *con) {
 
     printf("Ingrese fecha de salida (YYYY-MM-DD): ");
     scanf("%s", fechaSalida);
+
+    struct tm tm_fecha_1;
+    if (strptime(fechaSalida, "%Y-%m-%d", &tm_fecha_1) == NULL) {
+        printf("Error: El formato de la fecha de ingreso no es válido.\n");
+        printf("*******************************************************\n");
+        return;
+    }
 
     char query[300];
     sprintf(query, "INSERT INTO reservacion (IdHabitacion, IdCliente, fecha_ingreso, fecha_salida, estado) VALUES (%d, %s, '%s', '%s', '%s');",
@@ -382,9 +393,7 @@ void actualizarReservacion(MYSQL *con) {
         return;
     }
 
-
     char queryConflictos[300];
-
     sprintf(queryConflictos, "SELECT * FROM reservacion WHERE IdReservacion != %d AND IdHabitacion = (SELECT IdHabitacion FROM reservacion WHERE IdReservacion = %d) AND (('%s' BETWEEN fecha_ingreso AND fecha_salida) OR ('%s' BETWEEN fecha_ingreso AND fecha_salida));", idReservacion, idReservacion, nuevaFechaIngreso, nuevaFechaIngreso);
     if (mysql_query(con, queryConflictos) != 0) {
         fprintf(stderr, "Error al verificar conflictos de fechas: %s\n", mysql_error(con));
@@ -402,7 +411,7 @@ void actualizarReservacion(MYSQL *con) {
     printf("Ingrese la nueva fecha de salida (YYYY-MM-DD): ");
     scanf("%s", nuevaFechaSalida);
 
-    struct tm tm_fecha1;
+
     if (strptime(nuevaFechaIngreso, "%Y-%m-%d", &tm_fecha) == NULL) {
         printf("Error: El formato de la fecha de ingreso no es válido.\n");
         printf("*******************************************************\n");
