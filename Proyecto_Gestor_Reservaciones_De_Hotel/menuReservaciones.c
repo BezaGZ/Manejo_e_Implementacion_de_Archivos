@@ -419,7 +419,7 @@ void actualizarReservacion(MYSQL *con) {
         mysql_free_result(resultConflictos);
         return;
     }
-// Verificar si ya existe una reservación confirmada para la misma habitación con la nueva fecha de ingreso
+
     char queryExistencia[300];
     sprintf(queryExistencia, "SELECT * FROM reservacion WHERE IdHabitacion = (SELECT IdHabitacion FROM reservacion WHERE IdReservacion = %d) AND fecha_ingreso = '%s' AND estado = 'Confirmada';", idReservacion, nuevaFechaIngreso);
     if (mysql_query(con, queryExistencia) != 0) {
